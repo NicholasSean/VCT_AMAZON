@@ -1,42 +1,40 @@
-// src/ChatComponent.js
 import React, { useState } from 'react';
-import './ChatComponent.css';  // For styling the chat interface
+import axios from 'axios';
 
-const ChatComponent = () => {
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState('');
+const ChatInterface = () => {
+    const [prompt, setPrompt] = useState('');
+    const [response, setResponse] = useState('');
 
-  const handleSendMessage = () => {
-    if (!input) return;
+    const handlePromptSubmit = async (e) => {
+        e.preventDefault();
 
-    // Add user's message to chat
-    const newMessage = { sender: 'user', text: input };
-    setMessages([...messages, newMessage]);
+        try {
+            const res = await axios.post('http://localhost:5000/api/query-bedrock', { prompt });
+            setResponse(res.data);
+        } catch (error) {
+            console.error('Error querying Bedrock:', error);
+            setResponse('An error occurred while connecting to Bedrock.');
+        }
+    };
 
-    // Clear input field
-    setInput('');
-  };
+    return (
+        <div>
+            <form onSubmit={handlePromptSubmit}>
+                <input
+                    type="text"
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
+                    placeholder="Enter your prompt"
+                />
+                <button type="submit">Submit</button>
+            </form>
 
-  return (
-    <div className="chat-container">
-      <div className="chat-window">
-        {messages.map((message, index) => (
-          <div key={index} className={`message ${message.sender}`}>
-            {message.text}
-          </div>
-        ))}
-      </div>
-      <div className="input-box">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type a message"
-        />
-        <button onClick={handleSendMessage}>Send</button>
-      </div>
-    </div>
-  );
+            <div>
+                <h3>Response from Bedrock:</h3>
+                <p>{response}</p>
+            </div>
+        </div>
+    );
 };
 
-export default ChatComponent;
+export default ChatInterface;
