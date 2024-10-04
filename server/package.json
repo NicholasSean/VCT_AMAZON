@@ -13,7 +13,7 @@
     "@aws-sdk/client-bedrock": "^3.662.0",
     "@aws-sdk/client-bedrock-agent": "^3.662.0",
     "@aws-sdk/client-bedrock-agent-runtime": "^3.663.0",
-    "@aws-sdk/client-bedrock-runtime": "^3.663.0",
+    "@aws-sdk/client-bedrock-runtime": "^3.664.0",
     "aws-amplify": "^6.6.3",
     "aws-sdk": "^2.1691.0",
     "axios": "^1.7.7",

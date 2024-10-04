@@ -6,27 +6,40 @@ function Chatbot() {
 
   const sendMessage = async () => {
     if (input.trim() !== "") {
+      // Log the user input
+      console.log("User input:", input);
+
       // Add user message to chat
       setMessages([...messages, { role: "user", content: input }]);
-      
+
       // Call the API here
       try {
-        const response = await fetch('api/chat', {
+        console.log("Sending request to API with input:", input);
+        
+        const response = await fetch('http://localhost:3001/api/chat', { // Ensure correct API URL
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            prompt: input, // Change to prompt
+            prompt: input, // Log the input
           }),
         });
 
+        // Log the response status
+        console.log("API response status:", response.status);
+
         // Check if the response is ok (status 200-299)
         if (!response.ok) {
+          // Log the error status and message
+          console.error(`Error: ${response.status} ${response.statusText}`);
           throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
 
+        // Parse and log the response data
         const data = await response.json();
+        console.log("API response data:", data);
+
         const botMessage = data.message; // Adjust based on your API response structure
 
         // Add bot message to chat
@@ -35,9 +48,14 @@ function Chatbot() {
           { role: "user", content: input },
           { role: "bot", content: botMessage }
         ]);
+
         setInput(""); // Clear input field after sending the message
+
       } catch (error) {
-        console.error("Error fetching bot response:", error);
+        // Log the error message and stack trace
+        console.error("Error fetching bot response:", error.message);
+        console.error("Error stack trace:", error.stack);
+
         // Optionally, you can display an error message in the chat
         setMessages(prevMessages => [
           ...prevMessages,
@@ -45,7 +63,8 @@ function Chatbot() {
         ]);
       }
     }
-  };
+};
+
 
   return (
     <div>

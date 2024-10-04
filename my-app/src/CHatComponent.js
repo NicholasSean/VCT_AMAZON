@@ -9,8 +9,12 @@ const ChatInterface = () => {
         e.preventDefault();
 
         try {
-            const res = await axios.post('http://localhost:5000/api/query-bedrock', { prompt });
-            setResponse(res.data);
+            // Updated to match your backend endpoint
+            const res = await axios.post('http://localhost:3001/api/chat', { 
+                freeform_text: prompt,
+                language: 'English' // Assuming you're using English
+            });
+            setResponse(res.data.text);  // Access the response text properly
         } catch (error) {
             console.error('Error querying Bedrock:', error);
             setResponse('An error occurred while connecting to Bedrock.');
