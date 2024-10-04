@@ -47,11 +47,7 @@ app.post('/api/chat', async (req, res) => {
       console.log("Full response from Bedrock:", result);
   
       // Safely access the output text
-      const botMessage = result.results && result.results[0] 
-          ? result.results[0].outputText 
-          : "No response from model";
-          
-      res.json({ message: botMessage });
+      res.json({ message: result.completion });
     } catch (error) {
       console.error("Error invoking Bedrock model:", error);
       res.status(500).json({ error: "Failed to connect to Bedrock." });
