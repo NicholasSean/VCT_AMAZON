@@ -80,6 +80,7 @@ node server.js
 ```
 
 The backend server should be running on `http://localhost:3001`.
+
 3. **Start the frontend application**:
 
 ```bash
@@ -88,6 +89,7 @@ npm start
 ```
 
 The React app should open in your default browser at `http://localhost:3000`.
+
 4. **Use the Chat Interface**: Open the frontend application and enter a message. The response from the Claude model should appear in the chat interface.
 
 ## Environment Variables
