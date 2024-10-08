@@ -1,9 +1,5 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-**/node_modules
-.env
-
 /.pnp
 .pnp.js
 **.bin
@@ -22,6 +18,23 @@
 .env.test.local
 .env.production.local
 
+
+# Node modules for frontend and backend
+**/node_modules/
+
+# Build outputs for frontend
+frontend/build/
+frontend/dist/
+
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Environment variables
+frontend/.env
+server/.env
+
+# Build outputs for backend
+server/build/
+server/dist/

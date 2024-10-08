@@ -1,6 +1,8 @@
+// src/Chat.js
 import React, { useState } from 'react';
+import axios from 'axios';
 
-function Chatbot() {
+const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
@@ -12,36 +14,25 @@ function Chatbot() {
       // Add user message to chat
       setMessages(prevMessages => [...prevMessages, { role: "user", content: input }]);
 
-      // Call the API here
       try {
+        // Send the prompt to your backend API
         console.log("Sending request to API with input:", input);
-        
-        const response = await fetch('http://localhost:3001/api/chat', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            prompt: input,
-          }),
+
+        const response = await axios.post('http://localhost:3001/api/chat', {
+          prompt: input,
         });
 
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status} ${response.statusText}`);
-        }
+        // Log the API response for debugging
+        console.log("API response data:", response.data);
 
-        const data = await response.json();
-        console.log("API response data:", data);
-
-        const botMessage = data.message; 
+        // Assuming response data structure: { message: "response text" }
+        const botMessage = response.data.message;
 
         // Add bot message to chat
         setMessages(prevMessages => [
           ...prevMessages,
           { role: "bot", content: botMessage }
         ]);
-
-        setInput(""); // Clear input field
 
       } catch (error) {
         console.error("Error fetching bot response:", error.message);
@@ -50,10 +41,10 @@ function Chatbot() {
           { role: "bot", content: "Sorry, I couldn't respond to that." }
         ]);
       }
+
+      setInput(""); // Clear input field after sending the message
     }
-};
-
-
+  };
 
   return (
     <div>
@@ -75,4 +66,4 @@ function Chatbot() {
   );
 }
 
-export default Chatbot;
+export default Chat;
