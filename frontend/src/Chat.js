@@ -1,6 +1,6 @@
-// src/Chat.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import './Chat.css'; // Import the CSS file
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -47,21 +47,23 @@ const Chat = () => {
   };
 
   return (
-    <div>
+    <div className="chat-container">
       <div className="chat-window">
         {messages.map((msg, idx) => (
-          <div key={idx} className={msg.role === "user" ? "user-message" : "bot-message"}>
-            {msg.content}
+          <div key={idx} className={`message ${msg.role}`}>
+            <span>{msg.content}</span>
           </div>
         ))}
       </div>
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Type a message"
-      />
-      <button onClick={sendMessage}>Send</button>
+      <div className="input-container">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Type a message"
+        />
+        <button onClick={sendMessage}>Send</button>
+      </div>
     </div>
   );
 }
